@@ -30,7 +30,7 @@ var taskFormHandler = function(event) {
   } else {
     var taskDataObj = {
       name: taskNameInput,
-      type: taskTypeInput
+      type: taskTypeInput,
       status: "to do"
     };
 
@@ -56,6 +56,7 @@ var createTaskEl = function(taskDataObj) {
   taskDataObj.id = taskIdCounter;
 
   tasks.push(taskDataObj);
+  saveTasks();
 
   // increase task counter for next unique id
   taskIdCounter++;
@@ -115,6 +116,7 @@ var completeEditTask = function(taskName, taskType, taskId) {
       tasks[i].type = taskType;
     }
   };
+  saveTasks();
 
   alert("Task Updated!");
 
@@ -164,6 +166,7 @@ for (var i=0; i < tasks.length; i++) {
     task[i].status = statusValue;
   }
 }
+saveTasks();
 };
 
 var editTask = function(taskId) {
@@ -204,10 +207,15 @@ var deleteTask = function(taskId) {
       updatedTaskArr.push(tasks[i]);
     }
   }
+  saveTasks();
 };
 
 //reassign tasks array to be the same as updated TaskArr
 tasks = updatedTaskArr;
+
+var saveTasks = function() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 // Create a new task
 formEl.addEventListener("submit", taskFormHandler);
